@@ -9,4 +9,4 @@ Route.route("/").post(createHotel).get(getAllHotels)
 Route.route("/:id").patch(updateHotel).delete(deleteHotel).get(getHotel)
 
 
-export default Route;
+export default Route

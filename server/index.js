@@ -5,7 +5,7 @@ const app=express()
 dotenv.config()
 //route imports
 import HotelRoute from "./routes/hotel.js"
-
+import userRoute from "./routes/auth.js"
 //env variables
 const port= process.env.PORT || 5000 
 const mongo=process.env.MONGO
@@ -28,11 +28,23 @@ mongoose.connection.on("disconnected",()=>{
 })
 
 
+
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 app.use("/hotel",HotelRoute)
+app.use("/user",userRoute)
 
+app.use((err,req,res,next)=>{
+    const errorStatus= err.status || 500
+    const errorMessage = err.message || "Sorry Something went wrong!"
+    return res.status(errorStatus).json({
+        success:false,
+        status:errorStatus,
+        message:errorMessage,
+        stack:err.stack
+    })
+})
 
 app.listen(port,()=>{
     connect()
