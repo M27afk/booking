@@ -1,11 +1,15 @@
 import express from "express"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
+import cookieParser from "cookie-parser"
 const app=express()
 dotenv.config()
+
 //route imports
 import HotelRoute from "./routes/hotel.js"
 import userRoute from "./routes/auth.js"
+import { authenticated } from "./utils/tokenVerify.js"
+
 //env variables
 const port= process.env.PORT || 5000 
 const mongo=process.env.MONGO
@@ -27,13 +31,17 @@ mongoose.connection.on("disconnected",()=>{
     console.log(`Disconnected from MongoDB`)
 })
 
-
-
+    
+//middlewares
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 app.use("/hotel",HotelRoute)
 app.use("/user",userRoute)
+// app.use("/user/verify",authenticated,(req,res,next)=>{
+//     res.send("logged in")
+//  })
 
 app.use((err,req,res,next)=>{
     const errorStatus= err.status || 500

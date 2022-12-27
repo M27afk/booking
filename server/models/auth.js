@@ -3,9 +3,14 @@ const userSchema= new Schema(
     {
         username:{
             type:String,
-            required:true
+            required:true,
+            unique:true
         },
-        
+        email:{
+            type:String,
+            required:true,
+            unique:true
+        },
         password:{
             type:String,
             required:true
@@ -15,7 +20,9 @@ const userSchema= new Schema(
             required:false
         }
         
-    }
+    },  
+    {timestamps:true}
+
 )
 
 export default mongoose.model("User",userSchema)
