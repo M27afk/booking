@@ -28,10 +28,11 @@ import { errorHandler } from "./errorHandler.js";
  export const authAdmin=(req,res,next)=>{
     authenticated(req,res, ()=>{
         if(req.user.admin)
-       { 
-        next()
-    }
+            { 
+                next()
+            }
         else{
-                return next(errorHandler(403,"You are not authorised!"))}
+                return next(errorHandler(403,"You are not authorised!"))
+            }
     })
  }

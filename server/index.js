@@ -8,6 +8,7 @@ dotenv.config()
 //route imports
 import HotelRoute from "./routes/hotel.js"
 import userRoute from "./routes/auth.js"
+import roomRoute from "./routes/room.js"
 import { authenticated } from "./utils/tokenVerify.js"
 
 //env variables
@@ -39,6 +40,8 @@ app.use(express.urlencoded({extended:true}))
 
 app.use("/hotel",HotelRoute)
 app.use("/user",userRoute)
+app.use("/room",roomRoute)
+
 // app.use("/user/verify",authenticated,(req,res,next)=>{
 //     res.send("logged in")
 //  })

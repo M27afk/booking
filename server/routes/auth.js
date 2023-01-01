@@ -19,13 +19,13 @@ Route.route("/:id").put(authUser,updateUser)
 //     res.send("Hello "+(req.user.name)+"! You are logged in")
 // })
 
-// Route.get("/verifyuser/:id",authUser,(req,res,next)=>{
-//     res.send("Hello "+(req.user.name)+"! You are authorised")
-// })
+Route.get("/verifyuser/:id",authUser,(req,res,next)=>{
+    res.send("Hello "+(req.user.name)+"! You are authorised")
+})
 
-// Route.get("/verifyadmin/:id",authAdmin,(req,res,next)=>{
-//     res.send("Hello "+(req.user.name)+"! You are accessed with Admin permissions")
-// })
+Route.get("/verifyadmin/:id",authAdmin,(req,res,next)=>{
+    res.send("Hello "+(req.user.name)+"! You are accessed with Admin permissions")
+})
 
 
 export default Route
