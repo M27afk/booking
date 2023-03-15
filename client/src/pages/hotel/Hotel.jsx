@@ -11,11 +11,16 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 
 const Hotel = () => {
+  const loc = useLocation();
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
-
+  const id = loc.pathname.split("/")[2];
+  const { data, loading, error, refetch } = useFetch(`/hotel/${id}`);
+  console.log(data);
   const photos = [
     {
       src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707778.jpg?k=56ba0babbcbbfeb3d3e911728831dcbc390ed2cb16c51d88159f82bf751d04c6&o=&hp=1",
@@ -83,16 +88,16 @@ const Hotel = () => {
         )}
         <div className="hotelWrapper">
           <button className="bookNow">Reserve or Book Now!</button>
-          <h1 className="hotelTitle">Tower Street Apartments</h1>
+          <h1 className="hotelTitle">{data.title}</h1>
           <div className="hotelAddress">
             <FontAwesomeIcon icon={faLocationDot} />
-            <span>Elton St 125 New york</span>
+            <span>{data.address}</span>
           </div>
           <span className="hotelDistance">
             Excellent location – 500m from center
           </span>
           <span className="hotelPriceHighlight">
-            Book a stay over $114 at this property and get a free airport taxi
+            Book a stay over ₹1140 at this property and get a free airport taxi
           </span>
           <div className="hotelImages">
             {photos.map((photo, i) => (
@@ -126,11 +131,11 @@ const Hotel = () => {
             <div className="hotelDetailsPrice">
               <h1>Perfect for a 9-night stay!</h1>
               <span>
-                Located in the real heart of Krakow, this property has an
+                Located in the real heart of {data.city}, this property has an
                 excellent location score of 9.8!
               </span>
               <h2>
-                <b>$945</b> (9 nights)
+                <b>₹{data.cheapestPrice}</b> (9 nights)
               </h2>
               <button>Reserve or Book Now!</button>
             </div>
