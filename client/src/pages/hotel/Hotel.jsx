@@ -10,9 +10,10 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import { SearchContext } from "../../context/searchContext";
 
 const Hotel = () => {
   const loc = useLocation();
@@ -20,7 +21,7 @@ const Hotel = () => {
   const [open, setOpen] = useState(false);
   const id = loc.pathname.split("/")[2];
   const { data, loading, error, refetch } = useFetch(`/hotel/${id}`);
-  console.log(data);
+
   const photos = [
     {
       src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707778.jpg?k=56ba0babbcbbfeb3d3e911728831dcbc390ed2cb16c51d88159f82bf751d04c6&o=&hp=1",
@@ -41,7 +42,15 @@ const Hotel = () => {
       src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707389.jpg?k=52156673f9eb6d5d99d3eed9386491a0465ce6f3b995f005ac71abc192dd5827&o=&hp=1",
     },
   ];
-
+  const { dates, options } = useContext(SearchContext);
+  console.log(dates);
+  const milliseconds_day = 1000 * 60 * 60 * 24;
+  function dateDiff(date1, date2) {
+    const timediff = Math.abs(date2.getTime() - date1.getTime());
+    const dayDiff = Math.ceil(timediff / milliseconds_day);
+    return dayDiff;
+  }
+  const dayDiff = dateDiff(dates[0].endDate, dates[0].startDate);
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
@@ -129,13 +138,14 @@ const Hotel = () => {
               </p>
             </div>
             <div className="hotelDetailsPrice">
-              <h1>Perfect for a 9-night stay!</h1>
+              <h1>Perfect for a {dayDiff}-night stay!</h1>
               <span>
                 Located in the real heart of {data.city}, this property has an
                 excellent location score of 9.8!
               </span>
               <h2>
-                <b>₹{data.cheapestPrice}</b> (9 nights)
+                <b>₹{data.cheapestPrice * dayDiff * options.room}</b> ({dayDiff}{" "}
+                nights)
               </h2>
               <button>Reserve or Book Now!</button>
             </div>
