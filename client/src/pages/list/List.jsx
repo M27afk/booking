@@ -19,7 +19,7 @@ const List = () => {
   const [options, setOptions] = useState(location.state.options);
 
   const { data, loading, error, refetch } = useFetch(
-    `/hotel?city=${destination}&min=${min || 0}&max=${max || 9999}`
+    `/hotel?cityName=${destination}&min=${min || 0}&max=${max || 9999}`
   );
   const { dispatch } = useContext(SearchContext);
   const handleOptions = (name, val) => {

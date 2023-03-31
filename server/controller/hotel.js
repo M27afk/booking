@@ -35,11 +35,11 @@ export const deleteHotel = async(req,res)=>{
 }
 
 export const getAllHotels = async(req,res)=>{
-    const {min,max, ...otherParams}=req.query
+    const {min,max,cityName}=req.query
     try{
         const status = await hotel.find({
-        ...otherParams,
-        cheapestPrice:{$gt:min ||1, $lt:max || 9999},
+        city:   { $regex: `^${cityName}`, $options: 'i' } ,
+        cheapestPrice:{$gt:min||1, $lt:max || 9999},
         }).limit(req.query.limit)
         res.status(200).json(status)
     }
@@ -85,7 +85,7 @@ export const getType= async(req,res,next)=>{
         const villa=await hotel.countDocuments({type:"Villas"})
         const cabins=await hotel.countDocuments({type:"Cabin"})
         res.status(200).json([
-                        {type:"Hotel",count:hotels },
+            {type:"Hotel",count:hotels },
             {type:"Villa",count:villa },
             {type:"Apartment",count:apartment},
             {type:"Cabin",count:cabins },
