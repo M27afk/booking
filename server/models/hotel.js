@@ -29,6 +29,10 @@ const HotelSchema = new Schema(
         photos:{
             type:[String]
         },
+        image:{
+            data:Buffer,
+            contentType:String
+        },
         rating:{
             type:Number,
             min:0,

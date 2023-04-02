@@ -11,6 +11,7 @@ import { SearchContext } from "../../context/searchContext";
 
 const List = () => {
   const location = useLocation();
+  console.log(location.state);
   const [destination, setDestination] = useState(location.state.destination);
   const [min, setMin] = useState(undefined);
   const [max, setMax] = useState(undefined);

@@ -86,9 +86,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     dispatch({ type: "LOGIN_START" });
-
     try {
       const res = await axios.post("/user/login", credentials);
 
@@ -120,14 +118,12 @@ export default function Login() {
             type="password"
           />
         </div>
-        {/* <div style={LinkNav}>Forgot Username?</div>
-        <div style={LinkNav}>Forgot Password?</div> */}
         <div style={Query}>
           <Link style={{ textDecoration: "none", color: "black" }} to="/">
             <div style={ButtonHome}>Home</div>
           </Link>
           <button style={Button} onClick={handleSubmit}>
-            LOG IN
+            Login
           </button>
         </div>
         {error && <div>{error.message}</div>}

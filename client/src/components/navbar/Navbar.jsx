@@ -22,7 +22,14 @@ const Navbar = () => {
 
         {!user ? (
           <div className="navItems">
-            <button className="navButton">Register</button>
+            <button className="navButton">
+              <Link
+                to="/register"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Register
+              </Link>
+            </button>
             <button className="navButton">
               <Link
                 to="/login"
@@ -35,7 +42,7 @@ const Navbar = () => {
         ) : (
           <>
             <div className="navItems">
-              {user.username}
+              {user.name}
               <button onClick={handleLogout} className="navButton">
                 Logout
               </button>

@@ -6,12 +6,12 @@ import cors from "cors";
 
 const app=express()
 dotenv.config()
-
 //route imports
 import HotelRoute from "./routes/hotel.js"
 import userRoute from "./routes/auth.js"
 import roomRoute from "./routes/room.js"
-import { authenticated } from "./utils/tokenVerify.js"
+import multer from "multer";
+import hotelModel from "./models/hotel.js";
 
 //env variables
 const port= process.env.PORT || 5000 
@@ -45,9 +45,9 @@ app.use("/hotel",HotelRoute)
 app.use("/user",userRoute)
 app.use("/room",roomRoute)
 
-// app.use("/user/verify",authenticated,(req,res,next)=>{
-//     res.send("logged in")
-//  })
+
+
+
 
 app.use((err,req,res,next)=>{
     const errorStatus= err.status || 500

@@ -1,6 +1,5 @@
 import hotel from "../models/hotel.js"
 
-
 export const createHotel = async(req,res,next)=>{
     const newHotel = new hotel(req.body)
     try{
@@ -35,10 +34,11 @@ export const deleteHotel = async(req,res)=>{
 }
 
 export const getAllHotels = async(req,res)=>{
-    const {min,max,cityName}=req.query
+    const {min,max,cityName,...other}=req.query
     try{
         const status = await hotel.find({
-        city:   { $regex: `^${cityName}`, $options: 'i' } ,
+        ...other,
+        city:   { $regex: `^${cityName}`, $options: 'i' },
         cheapestPrice:{$gt:min||1, $lt:max || 9999},
         }).limit(req.query.limit)
         res.status(200).json(status)
@@ -57,6 +57,16 @@ export const getHotel =async(req,res)=>{
     catch(err){
         res.status(500).json(err)
 
+    }
+}
+
+export const getHotels = async(req,res,)=>{
+    try{
+        const data=await hotel.find().limit(req.query.limit)
+        res.status(200).json(data)
+    }
+    catch(err){
+        res.status(500).json(err)
     }
 }
 
